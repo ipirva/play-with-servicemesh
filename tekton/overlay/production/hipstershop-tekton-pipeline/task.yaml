@@ -30,8 +30,10 @@ spec:
       default: ""
     - name: imageTag
       default: "latest"
-    - name: argocdFlags
-      default: --
+    - name: argocdSyncFlags
+      default: "--insecure --loglevel debug --retry-limit 5 --prune"
+    - name: argocdWaitFlags
+      default: "--insecure --loglevel debug"
     - name: argocdVersion
       default: v2.1.7
     - name: argocdServer
@@ -99,8 +101,8 @@ spec:
       onError: stopAndFail
       script: |
         argocd login $(params.argocdServer) --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD
-        argocd app sync $(params.argocdApplicationName) $(params.argocdFlags) --server $(params.argocdServer)
-        argocd app wait $(params.argocdApplicationName) --health $(params.argocdFlags) --server $(params.argocdServer)
+        argocd app sync $(params.argocdApplicationName) $(params.argocdSyncFlags) --server $(params.argocdServer)
+        argocd app wait $(params.argocdApplicationName) --health $(params.argocdWaitFlags) --server $(params.argocdServer)
 # ---
 # apiVersion: tekton.dev/v1beta1
 # kind: TaskRun
