@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: el-github-event-listener
+  name: el-github-event-listener-push-productcatalogservice
   namespace: tekton-pipelines
 spec:
   rules:
@@ -12,6 +12,6 @@ spec:
         path: "/hooks"
         backend:
           service:
-            name: el-github-event-listener
+            name: el-github-event-listener-push-productcatalogservice
             port:
               number: 8080

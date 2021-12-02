@@ -5,7 +5,6 @@ namespace: tekton-pipelines
 resources:
 - release.yaml
 - interceptors.yaml
-- ingress.yaml
 - serviceaccount.yaml
 - sealed_secrets.yaml
 - rbac.yaml
