@@ -63,7 +63,7 @@ spec:
         - cel:
             filter: >-
               header.match('X-GitHub-Event', 'push') &&
-              body.head_commit.message.startsWith('#productcatalogservice#')
+              body.head_commit.message.startsWith('#hipstershop-productcatalogservice#')
       bindings:
         - ref: github-push-binding-productcatalogservice # TriggerBinding object
       template:
