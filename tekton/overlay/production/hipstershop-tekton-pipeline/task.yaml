@@ -30,9 +30,22 @@ spec:
       default: ""
     - name: imageTag
       default: "latest"
+    - name: argocdFlags
+      default: --
+    - name: argocdVersion
+      default: v2.1.7
+    - name: argocdServer
+      default: argocd.play.p2o.be
+    - name: argocdApplicationName
+      default: hipstershop
+  stepTemplate:
+    envFrom:
+      - secretRef:
+          name: argocd-auth-secret  # used for authentication (username/password or auth token)
   steps:
     - name: git-clone
       image: gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:latest
+      onError: stopAndFail
       script: |
         CHECKOUT_DIR="$(params.path)"
 
@@ -69,6 +82,7 @@ spec:
         fi
     - name: build-and-push
       image: gcr.io/kaniko-project/executor
+      onError: stopAndFail
       # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
       env:
         - name: "DOCKER_CONFIG"
@@ -80,6 +94,13 @@ spec:
         - --destination=$(params.image):$(params.imageTag)
         - --context=$(params.path)/$(params.context)
         - --verbosity=debug
+    - name: argocd-app-sync
+      image: argoproj/argocd:$(params.argocdVersion)
+      onError: stopAndFail
+      script: |
+        argocd login $(params.argocdServer) --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD
+        argocd app sync $(params.argocdApplicationName) $(params.argocdFlags) --server $(params.argocdServer)
+        argocd app wait $(params.argocdApplicationName) --health $(params.argocdFlags) --server $(params.argocdServer)
 # ---
 # apiVersion: tekton.dev/v1beta1
 # kind: TaskRun
