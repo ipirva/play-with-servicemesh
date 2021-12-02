@@ -17,7 +17,7 @@ kind: PodSecurityPolicy
 metadata:
   name: tekton-triggers
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 spec:
   privileged: false
@@ -64,7 +64,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: tekton-triggers-admin
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 rules:
   - apiGroups: [""]
@@ -101,7 +101,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: tekton-triggers-core-interceptors
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 rules:
   - apiGroups: [""]
@@ -113,7 +113,7 @@ kind: ClusterRole
 metadata:
   name: tekton-triggers-eventlistener-roles
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 rules:
   - apiGroups: ["triggers.tekton.dev"]
@@ -138,7 +138,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: tekton-triggers-eventlistener-clusterroles
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 rules:
   - apiGroups: ["triggers.tekton.dev"]
@@ -172,7 +172,7 @@ metadata:
   name: tekton-triggers-admin
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 rules:
   - apiGroups: ["policy"]
@@ -186,7 +186,7 @@ metadata:
   name: tekton-triggers-admin-webhook
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 rules:
   - apiGroups: ["policy"]
@@ -203,7 +203,7 @@ metadata:
   name: tekton-triggers-core-interceptors
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 rules:
   - apiGroups: ["policy"]
@@ -220,7 +220,7 @@ metadata:
   name: tekton-triggers-info
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 rules:
   # All system:authenticated users needs to have access
@@ -253,7 +253,7 @@ metadata:
   name: tekton-triggers-controller
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 ---
 apiVersion: v1
@@ -262,7 +262,7 @@ metadata:
   name: tekton-triggers-webhook
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 ---
 apiVersion: v1
@@ -271,7 +271,7 @@ metadata:
   name: tekton-triggers-core-interceptors
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 
 ---
@@ -294,7 +294,7 @@ kind: ClusterRoleBinding
 metadata:
   name: tekton-triggers-controller-admin
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 subjects:
   - kind: ServiceAccount
@@ -310,7 +310,7 @@ kind: ClusterRoleBinding
 metadata:
   name: tekton-triggers-webhook-admin
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 subjects:
   - kind: ServiceAccount
@@ -326,7 +326,7 @@ kind: ClusterRoleBinding
 metadata:
   name: tekton-triggers-core-interceptors
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 subjects:
   - kind: ServiceAccount
@@ -358,7 +358,7 @@ metadata:
   name: tekton-triggers-controller-admin
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 subjects:
   - kind: ServiceAccount
@@ -375,7 +375,7 @@ metadata:
   name: tekton-triggers-webhook-admin
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 subjects:
   - kind: ServiceAccount
@@ -392,7 +392,7 @@ metadata:
   name: tekton-triggers-core-interceptors
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 subjects:
   - kind: ServiceAccount
@@ -409,7 +409,7 @@ metadata:
   name: tekton-triggers-info
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 subjects:
   # Giving all system:authenticated users the access of the
@@ -442,7 +442,7 @@ kind: CustomResourceDefinition
 metadata:
   name: clusterinterceptors.triggers.tekton.dev
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
     version: "v0.17.1"
@@ -498,7 +498,7 @@ kind: CustomResourceDefinition
 metadata:
   name: clustertriggerbindings.triggers.tekton.dev
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
     version: "v0.17.1"
@@ -568,7 +568,7 @@ kind: CustomResourceDefinition
 metadata:
   name: eventlisteners.triggers.tekton.dev
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
     version: "v0.17.1"
@@ -674,7 +674,7 @@ kind: CustomResourceDefinition
 metadata:
   name: triggers.triggers.tekton.dev
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
     version: "v0.17.1"
@@ -746,7 +746,7 @@ kind: CustomResourceDefinition
 metadata:
   name: triggerbindings.triggers.tekton.dev
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
     version: "v0.17.1"
@@ -820,7 +820,7 @@ kind: CustomResourceDefinition
 metadata:
   name: triggertemplates.triggers.tekton.dev
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
     version: "v0.17.1"
@@ -896,7 +896,7 @@ metadata:
   namespace: tekton-pipelines
   labels:
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
 # The data is populated at install time.
@@ -907,7 +907,7 @@ metadata:
   name: validation.webhook.triggers.tekton.dev
   labels:
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
 webhooks:
@@ -928,7 +928,7 @@ metadata:
   name: webhook.triggers.tekton.dev
   labels:
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
 webhooks:
@@ -949,7 +949,7 @@ metadata:
   name: config.webhook.triggers.tekton.dev
   labels:
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
 webhooks:
@@ -988,7 +988,7 @@ kind: ClusterRole
 metadata:
   name: tekton-triggers-aggregate-edit
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
@@ -1032,7 +1032,7 @@ kind: ClusterRole
 metadata:
   name: tekton-triggers-aggregate-view
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
@@ -1071,7 +1071,7 @@ metadata:
   name: config-defaults-triggers
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 data:
   _example: |
@@ -1115,7 +1115,7 @@ metadata:
   name: feature-flags-triggers
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-pipelines
 data:
   # Setting this flag will determine which gated features are enabled.
@@ -1146,7 +1146,7 @@ metadata:
   name: triggers-info
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 data:
   # Contains triggers version which can be queried by external
@@ -1177,7 +1177,7 @@ metadata:
   name: config-logging-triggers
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 data:
   # Common configuration for all knative codebase
@@ -1232,7 +1232,7 @@ metadata:
   name: config-observability-triggers
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 data:
   _example: |
@@ -1289,7 +1289,7 @@ metadata:
   labels:
     app.kubernetes.io/name: controller
     app.kubernetes.io/component: controller
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/version: "v0.17.1"
     app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.17.1"
@@ -1306,7 +1306,7 @@ spec:
   selector:
     app.kubernetes.io/name: controller
     app.kubernetes.io/component: controller
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 
 ---
@@ -1332,7 +1332,7 @@ metadata:
   labels:
     app.kubernetes.io/name: controller
     app.kubernetes.io/component: controller
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/version: "v0.17.1"
     app.kubernetes.io/part-of: tekton-triggers
     # tekton.dev/release value replaced with inputs.params.versionTag in triggers/tekton/publish.yaml
@@ -1343,14 +1343,14 @@ spec:
     matchLabels:
       app.kubernetes.io/name: controller
       app.kubernetes.io/component: controller
-      app.kubernetes.io/instance: tekton
+      app.kubernetes.io/instance: default
       app.kubernetes.io/part-of: tekton-triggers
   template:
     metadata:
       labels:
         app.kubernetes.io/name: controller
         app.kubernetes.io/component: controller
-        app.kubernetes.io/instance: tekton
+        app.kubernetes.io/instance: default
         app.kubernetes.io/version: "v0.17.1"
         app.kubernetes.io/part-of: tekton-triggers
         app: tekton-triggers-controller
@@ -1406,7 +1406,7 @@ metadata:
   labels:
     app.kubernetes.io/name: webhook
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/version: "v0.17.1"
     app.kubernetes.io/part-of: tekton-triggers
     app: tekton-triggers-webhook
@@ -1420,7 +1420,7 @@ spec:
   selector:
     app.kubernetes.io/name: webhook
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-triggers
 
 ---
@@ -1446,7 +1446,7 @@ metadata:
   labels:
     app.kubernetes.io/name: webhook
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/instance: tekton
+    app.kubernetes.io/instance: default
     app.kubernetes.io/version: "v0.17.1"
     app.kubernetes.io/part-of: tekton-triggers
     # tekton.dev/release value replaced with inputs.params.versionTag in triggers/tekton/publish.yaml
@@ -1457,14 +1457,14 @@ spec:
     matchLabels:
       app.kubernetes.io/name: webhook
       app.kubernetes.io/component: webhook
-      app.kubernetes.io/instance: tekton
+      app.kubernetes.io/instance: default
       app.kubernetes.io/part-of: tekton-triggers
   template:
     metadata:
       labels:
         app.kubernetes.io/name: webhook
         app.kubernetes.io/component: webhook
-        app.kubernetes.io/instance: tekton
+        app.kubernetes.io/instance: default
         app.kubernetes.io/version: "v0.17.1"
         app.kubernetes.io/part-of: tekton-triggers
         app: tekton-triggers-webhook
