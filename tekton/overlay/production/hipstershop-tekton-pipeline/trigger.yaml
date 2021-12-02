@@ -1,5 +1,5 @@
 # dedicated to hipstershop productcatalogservice
-apiVersion: triggers.tekton.dev/v1beta1
+apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerBinding
 metadata:
   name: github-push-binding-productcatalogservice
@@ -12,7 +12,7 @@ spec:
     value: index.docker.io/ipirva/shop-productcatalogservice
 ---
 # general
-apiVersion: triggers.tekton.dev/v1beta1
+apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
   name: github-trigger-template-productcatalogservice
