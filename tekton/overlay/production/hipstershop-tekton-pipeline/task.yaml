@@ -30,6 +30,8 @@ spec:
       default: ""
     - name: imageTag
       default: "latest"
+    - name: argocdLoginFlags
+      default: "--insecure"
     - name: argocdSyncFlags
       default: "--insecure --loglevel debug --retry-limit 5 --prune"
     - name: argocdWaitFlags
@@ -100,7 +102,7 @@ spec:
       image: argoproj/argocd:$(params.argocdVersion)
       onError: stopAndFail
       script: |
-        argocd login $(params.argocdServer) --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD
+        argocd login $(params.argocdServer) $(params.argocdLoginFlags) --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD
         argocd app sync $(params.argocdApplicationName) $(params.argocdSyncFlags) --server $(params.argocdServer)
         argocd app wait $(params.argocdApplicationName) --health $(params.argocdWaitFlags) --server $(params.argocdServer)
 # ---
