@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+# namePrefix: prod-
+resources:
+- ../../base
+- install.yaml
+- ingress.yaml
+patches:
+  - target:
+      version: v1
+      kind: Ingress
+      name: argocd-server
+    patch: |-
+      - op: add
+        path: "/metadata/annotations/external-dns.alpha.kubernetes.io~1hostname"
+        value: argocd.play.p2o.be
+      - op: replace
+        path: "/spec/rules/0/host"
+        value: argocd.play.p2o.be
