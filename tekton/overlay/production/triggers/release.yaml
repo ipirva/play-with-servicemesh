@@ -1207,9 +1207,9 @@ data:
       }
     }
   # Log level overrides
-  loglevel.controller: "info"
-  loglevel.webhook: "info"
-  loglevel.eventlistener: "info"
+  loglevel.controller: "debug"
+  loglevel.webhook: "debug"
+  loglevel.eventlistener: "debug"
 
 ---
 # Copyright 2019 The Tekton Authors
