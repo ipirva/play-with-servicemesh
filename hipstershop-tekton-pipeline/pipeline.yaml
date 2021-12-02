@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-productcatalogservice
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: gitUrl
+      default: ""
+      description: The git repository url
+    - name: image
+      default: ""
+      description: The docker image
+  tasks:
+  - name: build-docker-image-from-git-source-productcatalogservice
+    taskRef:
+      name: build-docker-image-from-git-source-productcatalogservice
+    params: # pass them the the Task
+      - name: gitUrl
+        value: "$(params.gitUrl)"
+      - name: image
+        value: "$(params.image)"

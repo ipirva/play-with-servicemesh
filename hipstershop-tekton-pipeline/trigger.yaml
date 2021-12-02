@@ -1,0 +1,70 @@
+# dedicated to hipstershop productcatalogservice
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: github-push-binding-productcatalogservice
+  namespace: tekton-pipelines
+spec:
+  params:
+  - name: gitUrl
+    value: $(body.repository.clone_url)
+  - name: image
+    value: index.docker.io/ipirva/shop-productcatalogservice
+---
+# general
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: github-trigger-template-productcatalogservice
+  namespace: tekton-pipelines
+spec:
+  params:
+  - description: The git repository url
+    name: gitUrl
+  - description: The docker image
+    name: image
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: pipeline-productcatalogservice-run-
+    spec:
+      pipelineRef:
+        name: pipeline-productcatalogservice
+      params:
+      - name: gitUrl
+        value: $(tt.params.gitUrl)
+      - name: image
+        value: $(tt.params.image)
+      serviceAccountName: tekton-triggers-sa
+      workspaces:
+        - name: source-dir
+          persistentVolumeClaim:
+            claimName: tekton-workspace
+---
+# dedicated to hipstershop productcatalogservice
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: github-event-listener-push-productcatalogservice
+  namespace: tekton-pipelines
+spec:
+  serviceAccountName: tekton-triggers-sa
+  triggers:
+    - name: trigger-1
+      interceptors:
+        - ref:
+            name: "github"
+          params:
+            - name: "secretRef"
+              value:
+                secretName: github-interceptor-secret
+                secretKey: secretToken
+        - cel:
+            filter: >-
+              header.match('X-GitHub-Event', 'push') &&
+              body.head_commit.message.startsWith('#productcatalogservice#')
+      bindings:
+        - ref: github-push-binding-productcatalogservice # TriggerBinding object
+      template:
+        ref: github-trigger-template-productcatalogservice

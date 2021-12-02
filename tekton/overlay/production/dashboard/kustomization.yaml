@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: tekton-pipelines
+# namePrefix: prod-
+resources:
+- tekton-dashboard-release.yaml
+- ingress.yaml
+patches:
+  - target:
+      version: v1
+      kind: Ingress
+      name: tekton-dashboard
+    patch: |-
+      - op: add
+        path: "/metadata/annotations/external-dns.alpha.kubernetes.io~1hostname"
+        value: tekton.play.p2o.be
+      - op: replace
+        path: "/spec/rules/0/host"
+        value: tekton.play.p2o.be

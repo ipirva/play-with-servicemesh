@@ -1,0 +1,13 @@
+
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: test.play.p2o.be
+  namespace: external-dns
+spec:
+  endpoints:
+  - dnsName: test-aws.play.p2o.be
+    recordTTL: 180
+    recordType: A
+    targets:
+    - 192.168.168.168

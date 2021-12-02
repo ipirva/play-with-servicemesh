@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: el-github-event-listener
+  namespace: tekton-pipelines
+spec:
+  rules:
+  - host: "tekton-webhook.play.p2o.be"
+    http:
+      paths:
+      - pathType: Exact
+        path: "/hooks"
+        backend:
+          service:
+            name: el-github-event-listener
+            port:
+              number: 8080

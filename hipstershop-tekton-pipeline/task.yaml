@@ -1,0 +1,106 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-docker-image-from-git-source-productcatalogservice
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: gitUrl
+      description: Repository URL to clone from.
+      type: string
+      default: ""
+    - name: gitRevision
+      description: Revision to checkout. (branch, tag, sha, ref, etc...)
+      type: string
+      default: ""
+    - name: gitDeleteExisting
+      description: Clean out the contents of the repo's destination directory (if it already exists) before trying to clone the repo there
+      type: string
+      default: "true"
+    - name: GitSslVerify
+      description: defines if http.sslVerify should be set to true or false in the global git config
+      type: string
+      default: "true"
+    - name: path
+      default: /workspace/git-source
+    - name: context
+      default: src/productcatalogservice
+    - name: image
+      description: Name (reference) of the image to build.
+      default: ""
+    - name: imageTag
+      default: "latest"
+  steps:
+    - name: git-clone
+      image: gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:latest
+      script: |
+        CHECKOUT_DIR="$(params.path)"
+
+        cleandir() {
+          # Delete any existing contents of the repo directory if it exists.
+          #
+          # We don't just "rm -rf $CHECKOUT_DIR" because $CHECKOUT_DIR might be "/"
+          # or the root of a mounted volume.
+          if [[ -d "$CHECKOUT_DIR" ]] ; then
+            # Delete non-hidden files and directories
+            rm -rf "$CHECKOUT_DIR"/*
+            # Delete files and directories starting with . but excluding ..
+            rm -rf "$CHECKOUT_DIR"/.[!.]*
+            # Delete files and directories starting with .. plus any other character
+            rm -rf "$CHECKOUT_DIR"/..?*
+          fi
+        }
+
+        if [[ "$(params.gitDeleteExisting)" == "true" ]] ; then
+          cleandir
+        fi
+
+        /ko-app/git-init \
+          -url "$(params.gitUrl)" \
+          -revision "$(params.gitRevision)" \
+          -path "$CHECKOUT_DIR" \
+          -sslVerify="$(params.GitSslVerify)"
+        cd "$CHECKOUT_DIR"
+        RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
+        EXIT_CODE="$?"
+        if [ "$EXIT_CODE" != 0 ]
+        then
+          exit $EXIT_CODE
+        fi
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor
+      # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
+      env:
+        - name: "DOCKER_CONFIG"
+          value: "/tekton/home/.docker/"
+      command:
+        - /kaniko/executor
+      args:
+        - --dockerfile=$(params.path)/$(params.context)/Dockerfile
+        - --destination=$(params.image):$(params.imageTag)
+        - --context=$(params.path)/$(params.context)
+        - --verbosity=debug
+# ---
+# apiVersion: tekton.dev/v1beta1
+# kind: TaskRun
+# metadata:
+#   # name: build-docker-image-from-git-source-productcatalogservice-task-run
+#   generateName: build-docker-image-from-git-source-productcatalogservice-task-run-
+#   namespace: tekton-pipelines
+# spec:
+#   serviceAccountName: tekton-sa
+#   taskRef:
+#     name: build-docker-image-from-git-source-productcatalogservice
+#   params:
+#     - name: gitUrl
+#       value: https://github.com/ipirva/microservices-demo/
+#     - name: gitRevision
+#       value: ""
+#     - name: gitDeleteExisting
+#       value: "true"
+#     - name: GitSslVerify
+#       value: "true"
+#     - name: image
+#       value: index.docker.io/ipirva/shop-productcatalogservice
+#     - name: imageTag
+#       value: "latest"
