@@ -8,6 +8,8 @@ After the installation the dashboard username is admin and the password can be g
 It is very useful to install the Argocd CLI. With brew this goes as:
 ```brew install argocd```
 
+Once Argocd installed, I use the CLI to create the different apps and then bring all of them into sync from the Argocd UI.
+
 Some useful argocd CLI commands:
 
 ```argocd login argocd.play.p2o.be

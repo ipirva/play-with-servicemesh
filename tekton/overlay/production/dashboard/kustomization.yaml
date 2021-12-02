@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: tekton-pipelines
 # namePrefix: prod-
 resources:
-- ../../../base
 - tekton-dashboard-release.yaml
 - ingress.yaml
 patches:
