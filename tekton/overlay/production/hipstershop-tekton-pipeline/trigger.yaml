@@ -24,7 +24,7 @@ spec:
   - description: The docker image
     name: image
   resourcetemplates:
-  - apiVersion: tekton.dev/v1alpha1
+  - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
     metadata:
       generateName: pipeline-productcatalogservice-run-
@@ -43,8 +43,7 @@ spec:
           persistentVolumeClaim:
             claimName: tekton-workspace
 ---
-# dedicated to hipstershop productcatalogservice
-apiVersion: triggers.tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
   name: github-event-listener-push-productcatalogservice
@@ -52,28 +51,22 @@ metadata:
 spec:
   serviceAccountName: tekton-triggers-sa
   triggers:
-    - bindings:
-        - kind: TriggerBinding
-          ref: github-push-binding-productcatalogservice
+    - name: trigger-1
+      serviceAccountName: tekton-triggers-sa
       interceptors:
-        - params:
+        - name: github
+          ref:
+            kind: ClusterInterceptor
+            name: github
+          params:
             - name: secretRef
               value:
                 secretKey: secretToken
                 secretName: github-interceptor-secret
-          ref:
-            kind: ClusterInterceptor
-            name: github
-        - params:
             - name: filter
-              value: >-
-                header.match('X-GitHub-Event', 'push') &&
-                body.head_commit.message.startsWith('#hipstershop-productcatalogservice#')
-            - name: overlays
-              value: null
-          ref:
-            kind: ClusterInterceptor
-            name: cel
-      name: trigger-1
+              value: header.match('X-GitHub-Event', 'push') && body.head_commit.message.startsWith('#hipstershop-productcatalogservice#')
       template:
         ref: github-trigger-template-productcatalogservice
+      bindings:
+        - kind: TriggerBinding
+          ref: github-push-binding-productcatalogservice
