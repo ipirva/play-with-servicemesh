@@ -98,13 +98,13 @@ spec:
         - --destination=$(params.image):$(params.imageTag)
         - --context=$(params.path)/$(params.context)
         - --verbosity=debug
-    - name: argocd-app-sync
-      image: argoproj/argocd:$(params.argocdVersion)
-      onError: stopAndFail
-      script: |
-        argocd login $(params.argocdServer) $(params.argocdLoginFlags) --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD
-        argocd app sync $(params.argocdApplicationName) $(params.argocdSyncFlags) --server $(params.argocdServer)
-        argocd app wait $(params.argocdApplicationName) --health $(params.argocdWaitFlags) --server $(params.argocdServer)
+#    - name: argocd-app-sync
+#      image: argoproj/argocd:$(params.argocdVersion)
+#      onError: stopAndFail
+#      script: |
+#        argocd login $(params.argocdServer) $(params.argocdLoginFlags) --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD
+#        argocd app sync $(params.argocdApplicationName) $(params.argocdSyncFlags) --server $(params.argocdServer)
+#        argocd app wait $(params.argocdApplicationName) --health $(params.argocdWaitFlags) --server $(params.argocdServer)
 # ---
 # apiVersion: tekton.dev/v1beta1
 # kind: TaskRun
