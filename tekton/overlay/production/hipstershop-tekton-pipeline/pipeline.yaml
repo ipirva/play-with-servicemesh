@@ -20,3 +20,5 @@ spec:
         value: "$(params.gitUrl)"
       - name: image
         value: "$(params.image)"
+      - name: imageTag
+        value: "v1.1"
