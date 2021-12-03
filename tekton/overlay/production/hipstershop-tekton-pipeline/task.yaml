@@ -29,7 +29,8 @@ spec:
       description: Name (reference) of the image to build.
       default: ""
     - name: imageTag
-      default: "latest"
+      default: ""
+      type: string
     - name: argocdLoginFlags
       default: "--insecure"
     - name: argocdSyncFlags

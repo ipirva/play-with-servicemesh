@@ -21,4 +21,4 @@ spec:
       - name: image
         value: "$(params.image)"
       - name: imageTag
-        value: "v1.1"
+        value: "v1.2"
