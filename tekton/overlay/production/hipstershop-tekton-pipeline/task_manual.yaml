@@ -105,27 +105,27 @@ spec:
         argocd login $(params.argocdServer) $(params.argocdLoginFlags) --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD
         argocd app sync $(params.argocdApplicationName) $(params.argocdSyncFlags) --server $(params.argocdServer)
         argocd app wait $(params.argocdApplicationName) --health $(params.argocdWaitFlags) --server $(params.argocdServer)
-# ---
-# apiVersion: tekton.dev/v1beta1
-# kind: TaskRun
-# metadata:
-#   # name: build-docker-image-from-git-source-productcatalogservice-task-run
-#   generateName: build-docker-image-from-git-source-productcatalogservice-task-run-
-#   namespace: tekton-pipelines
-# spec:
-#   serviceAccountName: tekton-sa
-#   taskRef:
-#     name: build-docker-image-from-git-source-productcatalogservice
-#   params:
-#     - name: gitUrl
-#       value: https://github.com/ipirva/microservices-demo/
-#     - name: gitRevision
-#       value: ""
-#     - name: gitDeleteExisting
-#       value: "true"
-#     - name: GitSslVerify
-#       value: "true"
-#     - name: image
-#       value: index.docker.io/ipirva/shop-productcatalogservice
-#     - name: imageTag
-#       value: "latest"
+ ---
+ apiVersion: tekton.dev/v1beta1
+ kind: TaskRun
+ metadata:
+   # name: build-docker-image-from-git-source-productcatalogservice-task-run
+   generateName: build-docker-image-from-git-source-productcatalogservice-task-run-
+   namespace: tekton-pipelines
+ spec:
+   serviceAccountName: tekton-sa
+   taskRef:
+     name: build-docker-image-from-git-source-productcatalogservice
+   params:
+     - name: gitUrl
+       value: https://github.com/ipirva/microservices-demo/
+     - name: gitRevision
+       value: ""
+     - name: gitDeleteExisting
+       value: "true"
+     - name: GitSslVerify
+       value: "true"
+     - name: image
+       value: index.docker.io/ipirva/shop-productcatalogservice
+     - name: imageTag
+       value: "latest"
