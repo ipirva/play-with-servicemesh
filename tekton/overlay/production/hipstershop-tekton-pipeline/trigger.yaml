@@ -51,20 +51,28 @@ metadata:
 spec:
   serviceAccountName: tekton-triggers-sa
   triggers:
-    - name: trigger-1
+    - bindings:
+        - kind: TriggerBinding
+          ref: github-push-binding-productcatalogservice
       interceptors:
-        - ref:
-            name: "github"
-          params:
-            - name: "secretRef"
+        - params:
+            - name: secretRef
               value:
-                secretName: github-interceptor-secret
                 secretKey: secretToken
-        - cel:
-            filter: >-
-              header.match('X-GitHub-Event', 'push') &&
-              body.head_commit.message.startsWith('#hipstershop-productcatalogservice#')
-      bindings:
-        - ref: github-push-binding-productcatalogservice # TriggerBinding object
+                secretName: github-interceptor-secret
+          ref:
+            kind: ClusterInterceptor
+            name: github
+        - params:
+            - name: filter
+              value: >-
+                header.match('X-GitHub-Event', 'push') &&
+                body.head_commit.message.startsWith('#hipstershop-productcatalogservice#')
+            - name: overlays
+              value: null
+          ref:
+            kind: ClusterInterceptor
+            name: cel
+      name: trigger-1
       template:
         ref: github-trigger-template-productcatalogservice
