@@ -43,7 +43,7 @@ spec:
           persistentVolumeClaim:
             claimName: tekton-workspace
 ---
-apiVersion: triggers.tekton.dev/v1beta1
+apiVersion: triggers.tekton.dev/v1alpha1
 kind: EventListener
 metadata:
   name: github-event-listener-push-productcatalogservice
