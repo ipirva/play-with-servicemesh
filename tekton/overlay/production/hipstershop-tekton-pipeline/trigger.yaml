@@ -28,6 +28,7 @@ spec:
     kind: PipelineRun
     metadata:
       generateName: pipeline-productcatalogservice-run-
+      # name: pipeline-productcatalogservice-run
     spec:
       pipelineRef:
         name: pipeline-productcatalogservice
