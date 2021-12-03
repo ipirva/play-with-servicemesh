@@ -24,7 +24,7 @@ spec:
   - description: The docker image
     name: image
   resourcetemplates:
-  - apiVersion: tekton.dev/v1beta1
+  - apiVersion: tekton.dev/v1alpha1
     kind: PipelineRun
     metadata:
       generateName: pipeline-productcatalogservice-run-
